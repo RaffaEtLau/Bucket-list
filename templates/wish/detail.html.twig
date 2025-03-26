@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ wish.title }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1>{{ wish.title }}</h1>
+
+    <div class="wish-details">
+        <p class="wish-description">{{ wish.description }}</p>
+
+        <div class="wish-meta">
+            <p>Créé par: {{ wish.author }}</p>
+            <p>Date de création: {{ wish.dateCreated|date('Y-m-d H:i') }}</p>
+        </div>
+    </div>
+
+    <a class="back-button" href="{{ path('wish_list') }}">Retour à la liste</a>
+{% endblock %}
