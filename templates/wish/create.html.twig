@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add your wishes | {{ parent() }}{% endblock %}
+
+{% block body %}
+    {% if wishForm.vars.value.id == null %}
+        <h2>Add your wishes!</h2>
+    {% else %}
+        <h2>Update your wishes!</h2>
+    {% endif %}
+
+    {{ form_start(wishForm) }}
+
+    <div class="form-group">
+        {{ form_label(wishForm.title, 'Votre rêve') }}
+        {{ form_widget(wishForm.title) }}
+        {{ form_errors(wishForm.title) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(wishForm.description, 'Décrivez-le...') }}
+        {{ form_widget(wishForm.description) }}
+        {{ form_errors(wishForm.description) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(wishForm.author, 'Votre nom') }}
+        {{ form_widget(wishForm.author) }}
+        {{ form_errors(wishForm.author) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_widget(wishForm.isPublished) }}
+        {{ form_label(wishForm.isPublished, 'Voulez-vous publier ?') }}
+        {{ form_errors(wishForm.isPublished) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(wishForm.imageFile, 'Image') }}
+        {# Afficher l'image existante s'il y en a une #}
+        {% if wishForm.vars.value.id != null and wishForm.vars.value.imageName %}
+            <div class="existing-image">
+                <img src="{{ asset('uploads/images/wish/' ~ wishForm.vars.value.imageName) }}" alt="{{ wishForm.vars.value.title }}" style="max-width: 200px;">
+            </div>
+        {% endif %}
+        {{ form_widget(wishForm.imageFile) }}
+        {{ form_errors(wishForm.imageFile) }}
+
+        {# Afficher la case à cocher pour supprimer l'image si elle existe #}
+        {% if wishForm.deleteImage is defined %}
+            {{ form_row(wishForm.deleteImage) }}
+        {% endif %}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(wishForm.category, 'Category') }}
+        {{ form_widget(wishForm.category) }}
+        {{ form_errors(wishForm.category) }}
+    </div>
+
+    <button type="submit" id="create" class="btn">
+        {{ wishForm.vars.value.id == null ? 'Create' : 'Modify' }}
+    </button>
+
+    {{ form_end(wishForm) }}
+{% endblock %}

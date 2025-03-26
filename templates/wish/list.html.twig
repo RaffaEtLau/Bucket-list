@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}All wishes! | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1>All wishes!</h1>
+
+    {# Filtre par catégorie amélioré #}
+    <div class="category-filter">
+        <form method="get" action="{{ path('wish_list') }}" class="filter-form">
+            <label for="category-select" class="filter-label">Filter by category:</label>
+            <select id="category-select" name="category" class="filter-select">
+                <option value="">All categories</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {% if selectedCategory and selectedCategory.id == category.id %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn-filter">
+                <i class="fas fa-filter"></i> Filter
+            </button>
+            {% if selectedCategory %}
+                <a href="{{ path('wish_list') }}" class="btn-clear">
+                    <i class="fas fa-times"></i> Clear
+                </a>
+            {% endif %}
+        </form>
+    </div>
+
+    {# Affichage des souhaits en grille compacte #}
+    <div class="wishes-list">
+        {% for wish in wishes %}
+            <div class="wish-item">
+                <a href="{{ path('wish_detail', {'id': wish.id}) }}">
+                    <h3>{{ wish.title }}</h3>
+
+                </a>
+            </div>
+        {% else %}
+            <div class="no-wishes">
+                <p>Il n'y a pas encore de souhaits publiés. Soyez le premier à ajouter le vôtre !</p>
+                <a href="{{ path('wish_create') }}" class="btn-bucket">
+                    <i class="fas fa-plus"></i> Add yours!
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

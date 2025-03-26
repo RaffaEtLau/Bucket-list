@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ wish.title }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1>{{ wish.title }}</h1>
+
+    <div class="wish-details">
+        {% if wish.imageName is defined and wish.imageName %}
+            <div class="wish-image-container">
+                <img src="{{ asset('uploads/images/wish/' ~ wish.imageName) }}" alt="{{ wish.title }}" class="wish-image">
+            </div>
+        {% endif %}
+
+        <div class="wish-description">
+            {{ wish.description|nl2br }}
+        </div>
+
+        <div class="wish-meta">
+            <div class="meta-item">
+                <span class="meta-label">Created by:</span> {{ wish.author }}
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Date:</span> {{ wish.dateCreated|date('Y-m-d H:i') }}
+            </div>
+            {% if wish.category %}
+                <div class="meta-item">
+                    <span class="meta-label">Category:</span>
+                    <span>
+                        {{ wish.category.name }}
+                    </span>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="action-buttons">
+            <a href="{{ path('wish_update', {'id': wish.id}) }}" class="btn-modify">
+                <i class="fas fa-edit"></i> Modifier
+            </a>
+            <a href="{{ path('wish_delete', {'id': wish.id, 'token': csrf_token('delete' ~ wish.id)}) }}" class="btn-delete"
+               onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce souhait?')">
+                <i class="fas fa-trash"></i> Supprimer
+            </a>
+        </div>
+    </div>
+
+    <a href="{{ path('wish_list') }}" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back to list
+    </a>
+{% endblock %}

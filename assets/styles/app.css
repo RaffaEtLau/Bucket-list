@@ -9,7 +9,6 @@
     --white: #ffffff;
 }
 
-
 /* Styles généraux */
 body {
     font-family: 'Roboto', 'Helvetica Neue', sans-serif;
@@ -18,6 +17,8 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    margin: 0;
+    padding: 0;
 }
 
 /* Styles pour l'en-tête */
@@ -28,40 +29,65 @@ header {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-header img {
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+header img, .logo {
     margin-right: 15px;
     transition: transform 0.3s ease;
+    color: var(--primary-red);
+    font-size: 1.8rem;
 }
 
-header img:hover {
-    transform: scale(1.1);
-}
-
-header h1 {
+header h1, .site-title {
     font-weight: 600;
     color: var(--almost-black);
     letter-spacing: -0.5px;
+    margin: 0;
 }
 
 /* Navigation */
-.nav {
+nav {
     margin-top: 0.8rem !important;
     padding-top: 0.8rem;
+    border-top: 1px solid var(--light-gray);
 }
 
-.nav-link {
-    color: var(--almost-black) !important;
+nav ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav li {
+    margin-right: 1rem;
+}
+
+/* CORRECTION: Navigation links colors */
+nav a, .nav-link {
+    color: var(--dark-gray) !important;
     font-weight: 500;
     padding: 0.5rem 1rem;
     border-radius: 4px;
     transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
 }
 
-.nav-link:hover {
+nav a:hover, .nav-link:hover, nav a.active, .nav-link.active {
     background-color: var(--primary-red);
     color: var(--white) !important;
 }
 
+/* Ligne de séparation en-dessous du header */
+.header-line {
+    height: 5px;
+    background: linear-gradient(to right, var(--primary-red), var(--dark-red));
+    margin: 0;
+}
 
 /* Contenu principal */
 main {
@@ -69,12 +95,19 @@ main {
     padding: 2rem 0;
 }
 
-main h2 {
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+main h1 {
     color: var(--dark-red);
     margin-bottom: 1.5rem;
     border-bottom: 2px solid var(--primary-red);
     padding-bottom: 0.5rem;
     display: inline-block;
+    font-size: 2rem;
 }
 
 main p {
@@ -83,41 +116,102 @@ main p {
     color: var(--dark-gray);
 }
 
-/* Pied de page */
-footer {
-    background-color: var(--white) !important;
-    border-top: 2px solid var(--primary-red);
-    color: var(--dark-gray);
-    padding: 1rem 0 !important;
-    margin-top: auto;
+/* Liste des souhaits */
+.wishes-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
 }
 
-footer p {
-    margin: 0;
-    font-size: 0.9rem;
-}
-
-/* Animation sur les titres */
-h1, h2, h3 {
-    position: relative;
+.wish-item {
+    background-color: var(--white);
+    border-radius: 8px;
+    padding: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 3px solid var(--primary-red);
     overflow: hidden;
+    min-height: 80px;
+    display: flex;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    header .d-flex {
-        flex-direction: column;
-        align-items: center !important;
-        text-align: center;
-    }
+.wish-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
 
-    header h1 {
-        margin-top: 1rem;
-    }
+.wish-item a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+    text-decoration: none;
+    color: var(--dark-gray);
+    font-weight: 500;
+    width: 100%;
+}
 
-    .nav {
-        justify-content: center;
-    }
+.wish-item h3 {
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+}
+
+.wish-item a i {
+    color: var(--primary-red);
+    margin-right: 8px;
+}
+
+/* Masquer les descriptions */
+.wish-preview {
+    display: none;
+}
+
+/* Page de détail */
+.wish-details {
+    background-color: var(--white);
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border-left: 4px solid var(--primary-red);
+    margin-bottom: 2rem;
+}
+
+.wish-description {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+.wish-meta {
+    background-color: var(--light-gray);
+    padding: 1rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
+}
+
+.back-link, #back_to_list, .back-button {
+    display: inline-block;
+    background-color: var(--primary-red);
+    color: var(--white) !important;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1.25rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin-top: 1rem;
+}
+
+.back-link:hover, #back_to_list:hover, .back-button:hover {
+    background-color: var(--dark-red);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    color: var(--white) !important;
+}
+
+.back-link i, #back_to_list i, .back-button i {
+    margin-right: 8px;
 }
 
 /* Effet de carte pour le contenu principal */
@@ -137,36 +231,341 @@ h1, h2, h3 {
 }
 
 /* Boutons personnalisés */
-.btn-bucket {
+.btn-bucket, .btn-primary, button[type="submit"], .button-primary, #create {
     background-color: var(--primary-red);
-    color: var(--white);
+    color: var(--white) !important;
     border: none;
     border-radius: 4px;
     padding: 0.5rem 1.25rem;
     transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: 1rem;
 }
 
-.btn-bucket:hover {
+.btn-bucket:hover, .btn-primary:hover, button[type="submit"]:hover, .button-primary:hover, #create:hover {
     background-color: var(--dark-red);
     transform: translateY(-2px);
     box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    color: var(--white) !important;
 }
 
-/* Logo et titre du site */
-.site-title {
+/* Style spécifique pour le bouton Create */
+#create {
+    margin-top: 1rem;
+    display: block;
+    clear: both;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+}
+
+/* Pied de page */
+footer {
+    background-color: var(--white) !important;
+    border-top: 2px solid var(--primary-red);
+    color: var(--dark-gray);
+    padding: 1rem 0 !important;
+    margin-top: auto;
+    text-align: center;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Category filters */
+.category-filter {
+    background-color: var(--white);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    border-left: 3px solid var(--primary-red);
+}
+
+.filter-form {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    color: var(--almost-black);
+    gap: 0.8rem;
+}
+
+.filter-label {
+    margin-right: 0.5rem;
+    font-weight: 500;
+    color: var(--dark-gray);
+}
+
+.filter-select {
+    flex: 1;
+    max-width: 350px;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    background-color: var(--white);
+    font-size: 0.9rem;
+}
+
+.btn-filter {
+    background-color: var(--primary-red);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.btn-filter i {
+    margin-right: 0.4rem;
+}
+
+.btn-filter:hover {
+    background-color: var(--dark-red);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.btn-clear {
+    background-color: #f8f9fa;
+    color: var(--dark-gray);
+    border: 1px solid #ced4da;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.2s ease;
     text-decoration: none;
 }
 
-.site-title:hover {
-    color: var(--primary-red);
+.btn-clear i {
+    margin-right: 0.4rem;
 }
 
-/* Ligne de séparation en-dessous du header */
-.header-line {
-    height: 5px;
-    background: linear-gradient(to right, var(--primary-red), var(--dark-red));
-    margin: 0;
+.btn-clear:hover {
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+}
+
+/* Category badges */
+.badge {
+    display: inline-block;
+    padding: 0.2em 0.5em;
+    font-size: 65%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 20px;
+    color: white;
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-sport, .sport, .SPORT {
+    background-color: #5cb85c;
+}
+
+.badge-travel, .travel, .TRAVEL {
+    background-color: #5bc0de;
+}
+
+.badge-culture, .culture, .CULTURE {
+    background-color: #f0ad4e;
+}
+
+/* Positionnement relatif pour les items de souhait pour les badges */
+.wish-item {
+    position: relative;
+}
+
+/* Form styles */
+form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--dark-gray);
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form textarea,
+form select {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="password"]:focus,
+form textarea:focus,
+form select:focus {
+    border-color: var(--primary-red);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.2);
+}
+
+form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+form input[type="checkbox"] {
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+form .form-check-label {
+    cursor: pointer;
+}
+
+/* Ordre des éléments du formulaire */
+form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* S'assurer que le bouton est placé après tous les champs */
+form button[type="submit"] {
+    margin-top: 1.5rem;
+    display: block;
+    clear: both;
+}
+
+/* Style pour le groupe catégorie et bouton */
+.form-category-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Style pour le sélecteur de fichier */
+.custom-file-input {
+    cursor: pointer;
+}
+
+.custom-file-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Style pour l'image existante */
+.existing-image {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.existing-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 3px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .wishes-list {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 0 0.8rem;
+    }
+
+    main h1 {
+        font-size: 1.8rem;
+    }
+}
+
+/* Boutons d'action */
+.action-buttons {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white !important;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1.25rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.btn-delete:hover {
+    background-color: #bd2130;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    color: white !important;
+}
+
+.btn-modify {
+    background-color: #6c757d;
+    color: white !important;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1.25rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.btn-modify:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    color: white !important;
+}
+
+/* Conteneur d'image */
+.wish-image-container {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.wish-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+@media (min-width: 768px) {
+    .wish-image {
+        max-width: 80%;
+    }
+}
+
+/* Responsive pour les boutons d'action */
+@media (max-width: 576px) {
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .btn-modify, .btn-delete {
+        text-align: center;
+    }
 }

@@ -26,14 +26,38 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('main_home') }}">Accueil</a>
                 </li>
-                {# D'autres liens de navigation pourront être ajoutés ici plus tard #}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('wish_list') }}">All wishes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('wish_create') }}"
+                       title="Add your own ideas!">
+                        Add yours!
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('main_about_us') }}">About Us</a>
+                </li>
             </ul>
         </nav>
     </div>
 </header>
-
-<main class="container my-4">
+<main class="flex-grow-1">
+    {# affiche les éventuels messages flash #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} alert-dismissible fade show"
+                 role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                        aria-label="Close">
+                </button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    <div class="container">
     {% block body %}{% endblock %}
+    </div>
 </main>
 
 <footer class="bg-light p-3 text-center">
