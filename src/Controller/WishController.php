@@ -63,14 +63,19 @@ class WishController extends AbstractController
     {
         return $this->render('wish/detail.html.twig', [
             'wish' => $wish,
-            ]);
+        ]);
     }
 
     #[Route('/create', name: 'create', methods: ['GET','POST'])]
     public function create(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
+        // Vérifier que l'utilisateur est connecté
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         // notre entité vide
         $wish = new Wish();
+        // Associer l'utilisateur connecté au nouveau souhait
+        $wish->setUser($this->getUser());
         // notre formulaire, associée à l'entité vide
         $wishForm = $this->createForm(WishType::class, $wish);
         // récupère les données du form et les injecte dans notre $wish
@@ -78,6 +83,9 @@ class WishController extends AbstractController
 
         // si le formulaire est soumis et valide...
         if ($wishForm->isSubmitted() && $wishForm->isValid()){
+            // Définir la date de création
+            $wish->setDateCreated(new \DateTime());
+
             // Gérer l'upload d'image
             $imageFile = $wishForm->get('imageFile')->getData();
             if ($imageFile) {
@@ -120,6 +128,10 @@ class WishController extends AbstractController
     public function update(Wish $wish, Request $request,
                            EntityManagerInterface $em, SluggerInterface $slugger, Upload $upload): Response
     {
+        // Vérifier si l'utilisateur est l'auteur ou admin
+        if ($this->getUser() !== $wish->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous ne pouvez modifier que vos propres souhaits.');
+        }
         // notre formulaire, associée à l'entité vide
         $wishForm = $this->createForm(WishType::class, $wish);
         // récupère les données du form et les injecte dans notre $wish
@@ -149,13 +161,10 @@ class WishController extends AbstractController
                 }
             }
 
-            //Gérer la suppression d'image si la case est cachée
-            if ($wishForm->has('deleteImage')&&$wishForm->get('deleteImage')->getData()) {
+            //Gérer la suppression d'image si la case est cochée
+            if ($wishForm->has('deleteImage') && $wishForm->get('deleteImage')->getData()) {
                 if ($wish->getImageName()) {
-                    $imagePath = $this->getParameter('kernel.project_dir').'/public/uploads/images/wish/'.$wish->getImageName();
-                    if (file_exists($imagePath)) {
-                        unlink($imagePath);
-                    }
+                    $upload->removeImage($wish);
                     $wish->setImageName(null);
                 }
             }
@@ -177,11 +186,17 @@ class WishController extends AbstractController
     public function delete(Wish $wish, Request $request,
                            EntityManagerInterface $em, Upload $upload): Response
     {
+        // Vérifier si l'utilisateur est l'auteur ou admin
+        if ($this->getUser() !== $wish->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous ne pouvez supprimer que vos propres souhaits ou être administrateur.');
+        }
+
         if ($this->isCsrfTokenValid('delete'.$wish->getId(), $request->query->get('token'),)) {
             try {
                 if ($wish->getImageName()) {
                     $upload->removeImage($wish);
                 }
+
                 // Suppression de l'entité
                 $em->remove($wish);
                 $em->flush();
@@ -193,7 +208,4 @@ class WishController extends AbstractController
         // on retourne à la page de la liste
         return $this->redirectToRoute('wish_list');
     }
-
-
-
 }

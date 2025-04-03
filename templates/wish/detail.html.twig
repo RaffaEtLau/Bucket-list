@@ -18,7 +18,7 @@
 
         <div class="wish-meta">
             <div class="meta-item">
-                <span class="meta-label">Created by:</span> {{ wish.author }}
+                <span class="meta-label">Created by:</span> {{ wish.user.pseudo }}
             </div>
             <div class="meta-item">
                 <span class="meta-label">Date:</span> {{ wish.dateCreated|date('Y-m-d H:i') }}
@@ -34,6 +34,7 @@
         </div>
 
         <div class="action-buttons">
+            {% if app.user is same as wish.user or is_granted('ROLE_ADMIN') %}
             <a href="{{ path('wish_update', {'id': wish.id}) }}" class="btn-modify">
                 <i class="fas fa-edit"></i> Modifier
             </a>
@@ -41,6 +42,56 @@
                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce souhait?')">
                 <i class="fas fa-trash"></i> Supprimer
             </a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="comments-section">
+        <h2>Commentaires</h2>
+
+        {% if app.user %}
+            <a href="{{ path('app_comment_new', {'id': wish.id}) }}" class="btn-comment">
+                <i class="fas fa-plus"></i> Ajouter un commentaire
+            </a>
+        {% else %}
+            <p><a href="{{ path('app_login') }}">Connectez-vous</a> pour ajouter un commentaire.</p>
+        {% endif %}
+
+        <div class="comments-list">
+            {% for comment in wish.comments %}
+                <div class="comment">
+                    <div class="comment-header">
+                        <div class="comment-author">{{ comment.user.pseudo }}</div>
+                        <div class="comment-date">{{ comment.createdAt|date('d/m/Y H:i') }}</div>
+                        <div class="comment-rating">
+                            {% for i in 1..5 %}
+                                {% if i <= comment.rating %}
+                                    &#9733;
+                                {% else %}
+                                    &#9734;
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="comment-content">{{ comment.content|nl2br }}</div>
+
+                    {% if app.user is same as comment.user or is_granted('ROLE_ADMIN') %}
+                        <div class="comment-actions">
+                            {% if app.user is same as comment.user %}
+                                <a href="{{ path('app_comment_edit', {'id': comment.id}) }}" class="btn-comment-edit">
+                                    <i class="fas fa-edit"></i> Modifier
+                                </a>
+                            {% endif %}
+                            <a href="{{ path('app_comment_delete', {'id': comment.id, 'token': csrf_token('delete' ~ comment.id)}) }}"
+                               class="btn-comment-delete"
+                               onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire?')">
+                                <i class="fas fa-trash"></i> Supprimer
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            {% else %}
+                <p class="no-comments">Il n'y a pas encore de commentaires pour ce souhait.</p>
+            {% endfor %}
         </div>
     </div>
 

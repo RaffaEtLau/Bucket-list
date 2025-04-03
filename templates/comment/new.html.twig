@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un commentaire pour "{{ wish.title }}" | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="comment-form-container">
+        <h1>Ajouter un commentaire pour "{{ wish.title }}"</h1>
+
+        {{ form_start(form, {'attr': {'class': 'comment-form'}}) }}
+        <div class="form-group">
+            {{ form_label(form.content, 'Votre commentaire') }}
+            {{ form_widget(form.content) }}
+            {{ form_errors(form.content) }}
+        </div>
+
+        <div class="rating-container">
+            {{ form_label(form.rating, 'Note') }}
+            <div class="rating-options">
+                {% for choice in form.rating.children %}
+                    <div class="rating-option">
+                        {{ form_widget(choice) }}
+                        {{ form_label(choice) }}
+                    </div>
+                {% endfor %}
+            </div>
+            {{ form_errors(form.rating) }}
+        </div>
+
+        <button type="submit" class="btn-save">Publier</button>
+        {{ form_end(form) }}
+
+        <a href="{{ path('wish_detail', {'id': wish.id}) }}" class="return-link">Retour au souhait</a>
+    </div>
+{% endblock %}

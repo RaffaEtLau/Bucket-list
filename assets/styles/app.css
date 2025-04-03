@@ -569,3 +569,361 @@ form button[type="submit"] {
         text-align: center;
     }
 }
+
+/* Styles pour la section commentaires */
+.comments-section {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--primary-red);
+}
+
+.comments-section h2 {
+    color: var(--dark-red);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--primary-red);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+    font-size: 1.8rem;
+}
+
+/* Bouton pour ajouter un commentaire */
+.btn-comment {
+    background-color: var(--primary-red);
+    color: var(--white) !important;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1.25rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+}
+
+.btn-comment:hover {
+    background-color: var(--dark-red);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    color: var(--white) !important;
+}
+
+.btn-comment i {
+    margin-right: 8px;
+}
+
+/* Styles pour chaque commentaire */
+.comment {
+    background-color: var(--white);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 3px solid var(--primary-red);
+    position: relative;
+}
+
+.comment:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Entête du commentaire (auteur, date) */
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.comment-author {
+    font-weight: 600;
+    color: var(--almost-black);
+    font-size: 1.1rem;
+}
+
+.comment-date {
+    color: var(--dark-gray);
+    font-size: 0.9rem;
+}
+
+/* Style spécial pour les étoiles (rating) */
+.comment-rating {
+    color: #ffc107;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    margin-top: 0.5rem;
+    display: block;
+}
+
+/* Contenu du commentaire */
+.comment-content {
+    color: var(--dark-gray);
+    line-height: 1.6;
+    margin-top: 0.5rem;
+    font-size: 1.1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+/* Actions sur les commentaires (modifier, supprimer) */
+.comment-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.btn-comment-edit {
+    background-color: #6c757d;
+    color: white !important;
+    border: none;
+    border-radius: 4px;
+    padding: 0.4rem 0.8rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.btn-comment-edit:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    color: white !important;
+}
+
+.btn-comment-delete {
+    background-color: #dc3545;
+    color: white !important;
+    border: none;
+    border-radius: 4px;
+    padding: 0.4rem 0.8rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.btn-comment-delete:hover {
+    background-color: #bd2130;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    color: white !important;
+}
+
+.btn-comment-edit i, .btn-comment-delete i {
+    margin-right: 4px;
+}
+
+/* Message quand il n'y a pas de commentaires */
+.no-comments {
+    font-style: italic;
+    color: var(--dark-gray);
+    padding: 1rem;
+    text-align: center;
+    background-color: var(--light-gray);
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+/* Formulaire de commentaire */
+.comment-form {
+    background-color: var(--white);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    border-left: 3px solid var(--primary-red);
+}
+
+.comment-form h3 {
+    margin-bottom: 1rem;
+    color: var(--dark-red);
+    font-size: 1.4rem;
+}
+
+/* Styles pour les choix de rating (radio buttons) */
+.rating-choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.rating-choice {
+    display: flex;
+    align-items: center;
+}
+
+.rating-choice input[type="radio"] {
+    margin-right: 0.5rem;
+}
+
+/* Animation pour les nouveaux commentaires */
+@keyframes highlightComment {
+    0% { background-color: rgba(230, 57, 70, 0.2); }
+    100% { background-color: var(--white); }
+}
+
+.comment.new {
+    animation: highlightComment 2s ease-in-out;
+}
+
+/* Responsive design pour les petits écrans */
+@media (max-width: 768px) {
+    .comment-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .comment-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-comment-edit, .btn-comment-delete {
+        text-align: center;
+    }
+}
+
+/* Styles pour le formulaire de commentaire */
+.comment-form-container {
+    background-color: var(--white);
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid var(--primary-red);
+    margin-bottom: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.comment-form-container h1 {
+    color: var(--dark-red);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--primary-red);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+    font-size: 1.8rem;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    min-height: 150px;
+    font-family: inherit;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.comment-form textarea:focus {
+    border-color: var(--primary-red);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.2);
+}
+
+.comment-form label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+    color: var(--dark-gray);
+    font-size: 1.1rem;
+}
+
+/* Styles pour les étoiles de notation */
+.rating-container {
+    margin-bottom: 1.5rem;
+}
+
+.rating-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-top: 0.5rem;
+}
+
+.rating-option {
+    display: flex;
+    align-items: center;
+    background-color: var(--light-gray);
+    padding: 0.6rem 1rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.rating-option:hover {
+    background-color: #e9ecef;
+}
+
+.rating-option input[type="radio"] {
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+.rating-option label {
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+/* Style pour le bouton Save */
+.btn-save {
+    background-color: var(--primary-red);
+    color: var(--white);
+    border: none;
+    border-radius: 4px;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-save:hover {
+    background-color: var(--dark-red);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Style pour le lien de retour */
+.return-link {
+    color: #007bff;
+    text-decoration: none;
+    margin-top: 1rem;
+    display: inline-block;
+    transition: color 0.2s ease;
+}
+
+.return-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Message d'erreur de validation */
+.validation-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    border-left: 3px solid #f5c6cb;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .comment-form-container {
+        padding: 1.5rem;
+    }
+
+    .rating-options {
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+}
